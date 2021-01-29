@@ -1,10 +1,8 @@
 " Insert or delete brackets, parens, quotes in pairs.
-" Maintainer:	JiangMiao <jiangfriend@gmail.com>
-" Contributor: camthompson
-" Last Change:  2019-02-02
+" Maintainer:	zdszero
+" Last Change:  Wed Jan 27
 " Version: 2.0.0
-" Homepage: http://www.vim.org/scripts/script.php?script_id=3599
-" Repository: https://github.com/jiangmiao/auto-pairs
+" Repository: https://github.com/zdszero/auto-pairs
 " License: MIT
 
 if exists('g:AutoPairsLoaded') || &cp
@@ -464,6 +462,14 @@ func! AutoPairsToggle()
   return ''
 endf
 
+func! AutoPairsDisable()
+  let b:autopairs_enabled = 0
+endf
+
+func! AutoPairsEnable()
+  let b:autopairs_enabled = 1
+endf
+
 func! s:sortByLength(i1, i2)
   return len(a:i2[0])-len(a:i1[0])
 endf
@@ -601,6 +607,7 @@ func! s:ExpandMap(map)
 endf
 
 func! AutoPairsTryInit()
+
   if exists('b:autopairs_loaded')
     return
   end
@@ -662,6 +669,11 @@ func! AutoPairsTryInit()
       execute 'inoremap <script> <buffer> <silent> <CR> '.old_cr.'<SID>AutoPairsReturn'
     end
   endif
+
+  if index(g:AutoPairs_fileTypeExclude, &filetype) != -1
+    let b:autopairs_enabled = 0
+  endif
+
   call AutoPairsInit()
 endf
 
@@ -671,3 +683,5 @@ imap <script> <Plug>AutoPairsReturn <SID>AutoPairsReturn
 
 
 au BufEnter * :call AutoPairsTryInit()
+command! AutoPairsEnable call AutoPairsEnable()
+command! AutoPairsDisable call AutoPairsDisable()
