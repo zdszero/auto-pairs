@@ -387,6 +387,10 @@ func! AutoPairsReturn()
   let before = getline(line('.')-1)
   let [ig, ig, afterline] = s:getline()
   let cmd = ''
+  " autoindent in html tag
+  if before =~ '>' && afterline =~ '<'
+    return "\<Esc>"."O"
+  endif
   for [open, close, opt] in b:AutoPairsList
     if close == ''
       continue
