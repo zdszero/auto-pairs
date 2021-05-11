@@ -387,6 +387,10 @@ func! AutoPairsReturn()
   let before = getline(line('.')-1)
   let [ig, ig, afterline] = s:getline()
   let cmd = ''
+  " autoindent in html tag
+  if before =~ '>' && afterline =~ '<'
+    return "\<Esc>"."O"
+  endif
   for [open, close, opt] in b:AutoPairsList
     if close == ''
       continue
@@ -670,7 +674,7 @@ func! AutoPairsTryInit()
     end
   endif
 
-  if index(g:AutoPairs_fileTypeExclude, &filetype) != -1
+  if exist(g:AutoPairs_fileTypeExclude) && index(g:AutoPairs_fileTypeExclude, &filetype) != -1
     let b:autopairs_enabled = 0
   endif
 
