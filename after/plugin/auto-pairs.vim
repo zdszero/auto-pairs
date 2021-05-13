@@ -674,7 +674,7 @@ func! AutoPairsTryInit()
     end
   endif
 
-  if exist(g:AutoPairs_fileTypeExclude) && index(g:AutoPairs_fileTypeExclude, &filetype) != -1
+  if exists('g:AutoPairs_fileTypeExclude') && index(g:AutoPairs_fileTypeExclude, &filetype) != -1
     let b:autopairs_enabled = 0
   endif
 
